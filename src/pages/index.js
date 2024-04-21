@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Container, Typography, BottomNavigation, BottomNavigationAction, Modal, Grid, Box, IconButton, Tooltip } from '@mui/material'; 
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import BookRoundedIcon from '@mui/icons-material/BookRounded';
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import AddIcon from '@mui/icons-material/Add';
 import PlaceIcon from '@mui/icons-material/Place';
-import ExploreRoundedIcon from '@mui/icons-material/ExploreRounded';
 import JournalEntryForm from '../components/JournalEntryForm';
 import JournalEntry from '../components/JournalEntries';
 import Avatar from '@mui/material/Avatar';
@@ -120,6 +120,31 @@ export default function Home() {
           <Typography variant="h4" align="center" style={{ color: '#fff', fontWeight: 'bold', fontFamily: 'Poppins' }}>
             How are you feeling?
           </Typography>
+          </Box>
+          <Box
+            sx={{
+              backgroundColor: '#fff',
+              padding: '20px',
+              borderRadius: '20px', 
+              width: '95%',
+              margin: '20px auto',
+              display: 'flex',
+            }}
+          >
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gridGap: '20px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+                <img src="happy.png" style={{ width: '60%', borderRadius: '10px' }} />
+                <p style={{ fontSize: '18px', fontFamily: 'Poppins', marginTop: '10px' }}>Happy</p>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+                <img src="neutral.png" style={{ width: '60%', borderRadius: '10px' }} />
+                <p style={{ fontSize: '18px', fontFamily: 'Poppins', marginTop: '10px' }}>Neutral</p>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+                <img src="sad.png" style={{ width: '60%', borderRadius: '10px' }} />
+                <p style={{ fontSize: '18px', fontFamily: 'Poppins', marginTop: '10px' }}>Sad</p>
+              </div>
+            </div>
           </Box>
           <Box
             sx={{
@@ -248,11 +273,11 @@ export default function Home() {
           </>
         )}
 
-        {selectedTab === 'browse' && (
+        {selectedTab === 'profile' && (
           <>
           <br></br>
             <Typography variant="h3" component="h2" fontFamily="Poppins" >
-              Browse Tourist Spots
+              Profile
             </Typography>
           </>
         )}
@@ -296,7 +321,7 @@ export default function Home() {
         <BottomNavigationAction label="Home" value="home" icon={<HomeRoundedIcon />} />
         <BottomNavigationAction label="Journal" value="journal" icon={<BookRoundedIcon />} />
         <BottomNavigationAction label="Maps" value="maps" icon={<PlaceIcon />} />
-        <BottomNavigationAction label="Browse" value="browse" icon={<ExploreRoundedIcon />} />
+        <BottomNavigationAction label="Profile" value="profile" icon={<AccountCircleRoundedIcon />} />
       </BottomNavigation>
     </div>
   );
