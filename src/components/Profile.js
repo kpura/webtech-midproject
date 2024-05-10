@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Typography, Button, Switch, FormControlLabel, Avatar, Grid, IconButton } from '@mui/material';
+import { Container, Typography, Button, Switch, FormControlLabel, Avatar, Grid } from '@mui/material';
 import { Favorite, Photo, ChevronRight, Language, Palette, Lock, Brightness4 } from '@mui/icons-material';
 
 const Profile = () => {
