@@ -1,328 +1,43 @@
-import React, { useState } from 'react';
-import { Container, Typography, BottomNavigation, BottomNavigationAction, Modal, Grid, Box, IconButton, Tooltip } from '@mui/material'; 
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import BookRoundedIcon from '@mui/icons-material/BookRounded';
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-import AddIcon from '@mui/icons-material/Add';
-import PlaceIcon from '@mui/icons-material/Place';
-import JournalEntryForm from '../components/JournalEntryForm';
-import JournalEntry from '../components/JournalEntries';
-import Avatar from '@mui/material/Avatar';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import React from 'react';
+import { Container, Button, Grid } from '@mui/material';
+import Link from 'next/link';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
-export default function Home() {
-  const [selectedTab, setSelectedTab] = useState('home');
-  const [entries, setEntries] = useState([]);
-  const [locations, setLocations] = useState([]);
-  const [selectedEntry, setSelectedEntry] = useState(null);
-  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [addButtonStyle, setAddButtonStyle] = useState({
-    position: 'fixed',
-    bottom: '50%',
-    right: '50%',
-    transform: 'translate(50%, 50%)',
-    width: '100px',
-    height: '100px',
-    backgroundColor: '#008DDA',
-    borderRadius: '50%',
-    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
-  });
-
-  const AddEntry = (entry) => {
-    setEntries(prevEntries => [...prevEntries, entry]);
-    if (!locations.includes(entry.location)) {
-      setLocations(prevLocations => [...prevLocations, entry.location]);
-    }
-    setIsFormModalOpen(false);
-    setAddButtonStyle({
-      position: 'fixed',
-      bottom: '20px',
-      right: '20px',
-      width: '50px',
-      height: '50px',
-      margin: '0px 0px 60px 60px',
-      backgroundColor: '#008DDA',
-      borderRadius: '50%',  
-      boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.2)',
-    });
-    setShowSuccessAlert(true);
-  };
-
-  const TabChange = (event, newValue) => {
-    setSelectedTab(newValue);
-  };
-
-  const MyJournalEntry = (entry) => {
-    setSelectedEntry(entry);
-  };
-
-  const CloseModalView = () => {
-    setSelectedEntry(null);
-  };
-
-  const EditEntry = (entry) => {
-    // No functionality muna ang edit
-  };
-
-  const DeleteEntry = (entry) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this journal entry?");
-    if (confirmDelete) {
-      const updatedEntries = entries.filter(item => item !== entry);
-      setEntries(updatedEntries);
-      const updatedLocations = locations.filter(location => location !== entry.location);
-      setLocations(updatedLocations);
-      if (selectedEntry === entry) {
-        setSelectedEntry(null);
-      }
-      setShowSuccessAlert(true);
-    }
-  };
-
-  const OpenFormModal = () => {
-    setIsFormModalOpen(true);
-  };
-
-  const CloseFormModal = () => {
-    setIsFormModalOpen(false);
+const LandingPage = () => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
   };
 
   return (
-    <div style={{ backgroundColor: '#fff', minHeight: '100vh', paddingBottom: '50px' }}>
-      {selectedTab === 'home' && (
-        <>
-          <br></br>
-          <Box
-            sx={{
-              backgroundColor: '#5356FF',
-              backgroundImage: 'url(/cover.jpg)', 
-              backgroundSize: 'cover', 
-              backgroundPosition: 'center',
-              padding: '20px',
-              borderRadius: '20px', 
-              width: '95%',
-              margin: 'auto',
-              height: '250px'
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ color: '#fff' }}>
-              <p style={{ fontSize: '15px', fontWeight: 'bold', fontFamily: 'Poppins', letterSpacing: '1px' }}>WELCOME TO D JOURNAL</p>
-              <p style={{ fontSize: '25px', fontWeight: 'bold', fontFamily: 'Poppins' }}>Lauren</p>
-            </div>
-            <div>
-              <Avatar alt="Profile Icon" src="user.png" />
-            </div>
-          </div>
-          <br></br>
-          <br></br>
-          <Typography variant="h4" align="center" style={{ color: '#fff', fontWeight: 'bold', fontFamily: 'Poppins' }}>
-            How are you feeling?
-          </Typography>
-          </Box>
-          <Box
-            sx={{
-              backgroundColor: '#fff',
-              padding: '20px',
-              borderRadius: '20px', 
-              width: '95%',
-              margin: '20px auto',
-              display: 'flex',
-            }}
-          >
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gridGap: '20px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-                <img src="happy.png" style={{ width: '60%', borderRadius: '10px' }} />
-                <p style={{ fontSize: '18px', fontFamily: 'Poppins', marginTop: '10px' }}>Happy</p>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-                <img src="neutral.png" style={{ width: '60%', borderRadius: '10px' }} />
-                <p style={{ fontSize: '18px', fontFamily: 'Poppins', marginTop: '10px' }}>Neutral</p>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-                <img src="sad.png" style={{ width: '60%', borderRadius: '10px' }} />
-                <p style={{ fontSize: '18px', fontFamily: 'Poppins', marginTop: '10px' }}>Sad</p>
-              </div>
-            </div>
-          </Box>
-          <Box
-            sx={{
-              backgroundColor: '#fff',
-              padding: '20px',
-              borderRadius: '20px', 
-              width: '95%',
-              margin: '20px auto',
-            }}
-          >
-            <p style={{ fontSize: '20px', fontWeight: 'bold', fontFamily: 'Poppins', marginBottom: '10px' }}>Let's write about your experience on D Journal!</p>
-            <p style={{ fontSize: '16px', fontFamily: 'Poppins', lineHeight: '1.5' }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Sed ut purus quis nisi elementum accumsan. Nulla facilisi. Curabitur vel commodo quam. Phasellus consectetur placerat dui id imperdiet. Integer sed ante nec magna faucibus venenatis.
-            </p>
-          </Box>
-          <Box
-            sx={{
-              backgroundColor: '#E1AFD1',
-              padding: '20px',
-              borderRadius: '20px', 
-              width: '95%',
-              margin: '20px auto',
-            }}
-          >
-            <p style={{ fontSize: '20px', fontWeight: 'bold', fontFamily: 'Poppins', marginBottom: '10px' }}>How do you feel about traveling today?</p>
-            <p style={{ fontSize: '16px', fontFamily: 'Poppins', lineHeight: '1.5' }}>
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
-            </p>
-          </Box>
-          <Box
-            sx={{
-              backgroundColor: '#fff',
-              padding: '20px',
-              borderRadius: '20px', 
-              width: '95%',
-              margin: '20px auto',
-            }}
-          >
-            <p style={{ fontSize: '20px', fontWeight: 'bold', fontFamily: 'Poppins', marginBottom: '10px' }}>For You</p>
-            <p style={{ fontSize: '16px', fontFamily: 'Poppins', lineHeight: '1.5' }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Sed ut purus quis nisi elementum accumsan. Nulla facilisi. Curabitur vel commodo quam. Phasellus consectetur placerat dui id imperdiet. Integer sed ante nec magna faucibus venenatis.
-            </p>
-          </Box>          
-          <Box
-            sx={{
-              backgroundColor: '#ffffff',
-              padding: '20px',
-              borderRadius: '20px', 
-              width: '95%',
-              margin: '20px auto',
-            }}
-          >
-            <p style={{ fontSize: '20px', fontWeight: 'bold', fontFamily: 'Poppins', marginBottom: '20px' }}>Popular</p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gridGap: '20px' }}>
-              <div>
-                <img src="one.jpg" style={{ width: '100%', borderRadius: '10px' }} />
-                <p style={{ fontSize: '16px', fontFamily: 'Poppins', marginTop: '10px', textAlign: 'center' }}>Entry One</p>
-              </div>
-              <div>
-                <img src="cover.jpg" style={{ width: '100%', borderRadius: '10px' }} />
-                <p style={{ fontSize: '16px', fontFamily: 'Poppins', marginTop: '10px', textAlign: 'center' }}>Entry Two</p>
-              </div>
-              <div>
-                <img src="two.jpg" style={{ width: '100%', borderRadius: '10px' }} />
-                <p style={{ fontSize: '16px', fontFamily: 'Poppins', marginTop: '10px', textAlign: 'center' }}>Entry Three</p>
-              </div>
-            </div>
-          </Box>
-        </>
-      )}
-      <Container style={{ backgroundColor: 'white' }}>
-        {selectedTab === 'journal' && (
-          <>
-          <br></br>
-          <br></br>
-            <Typography variant="h6" align="center" style={{ fontWeight: 'bold', color: '#333', fontFamily: 'Poppins' }}>
-              My Travel Journal
-            </Typography>
-            <IconButton 
-              color="primary" 
-              aria-label="Add journal entry" 
-              onClick={OpenFormModal} 
-              style={addButtonStyle}
-            >
-              <AddIcon fontSize="large" style={{ color: '#fff', fontSize: '3rem' }} />
-            </IconButton>
-            <Container>
-              <br></br>
-              <br></br>
-              <Grid container spacing={1}>
-                {entries.map((entry, index) => (
-                  <Grid item xs={12} sm={6} md={4} key={index}>
-                    <div style={{ overflow: 'hidden' }}>
-                      <JournalEntry entry={entry} onClick={MyJournalEntry} />
-                    </div>
-                  </Grid>
-                ))}
-              </Grid>
-            </Container>
-            <Modal open={isFormModalOpen} onClose={CloseFormModal}>
-              <div style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                maxWidth: '200%',
-                maxHeight: '80%',
-                overflowY: 'auto',
-                backgroundColor: '#fff',
-                boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-                borderRadius: '8px',
-                padding: '20px'
-              }}>
-                <JournalEntryForm onAddEntry={AddEntry} />
-              </div>
-            </Modal>
-          </>
-        )}
-
-        {selectedTab === 'maps' && (
-          <>
-          <br></br>
-            <Typography variant="h3" component="h2" fontFamily="Poppins" >
-              Map locations
-            </Typography>
-          </>
-        )}
-
-        {selectedTab === 'profile' && (
-          <>
-          <br></br>
-            <Typography variant="h3" component="h2" fontFamily="Poppins" >
-              Profile
-            </Typography>
-          </>
-        )}
-
-        <Modal open={!!selectedEntry} onClose={CloseModalView}>
-          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', maxWidth: '80%', maxHeight: '80%', overflowY: 'auto', backgroundColor: '#fff', boxShadow: '0 4px 8px rgba(0,0,0,0.2)', borderRadius: '8px', padding: '20px' }}>
-            {selectedEntry && (
-              <>
-                <Typography variant="h5" component="h2" style={{ marginBottom: '10px', fontFamily: 'Poppins', fontWeight: 'bold' }}>
-                  {selectedEntry.title}
-                </Typography>
-                <Typography color="textSecondary" style={{ marginBottom: '10px', fontFamily: 'Poppins' }}>
-                  Location: {selectedEntry.location}
-                </Typography>
-                <Typography variant="body2" component="p" style={{ marginBottom: '20px', fontFamily: 'Poppins' }}>
-                  {selectedEntry.description}
-                </Typography>
-                <Typography color="textSecondary" style={{ marginBottom: '10px', fontFamily: 'Poppins' }}>
-                  Mood: {selectedEntry.mood}
-                </Typography>
-                {selectedEntry.image && (
-                  <img src={URL.createObjectURL(selectedEntry.image)} alt="Journal Entry" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', marginBottom: '20px' }} />
-                )}
-                <Tooltip title="Edit" arrow>
-                  <IconButton color="primary" aria-label="edit" onClick={() => EditEntry(selectedEntry)} style={{ marginRight: '10px' }}>
-                    <EditIcon />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Delete" arrow> 
-                  <IconButton color="error" aria-label="delete" onClick={() => DeleteEntry(selectedEntry)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </Tooltip> 
-              </>
-            )}
-          </div>
-        </Modal>
-      </Container>
-
-      <BottomNavigation value={selectedTab} onChange={TabChange} showLabels style={{ position: 'fixed', bottom: 0, width: '100%', background: '#fff', borderTop: '1px solid #ddd' }}>
-        <BottomNavigationAction label="Home" value="home" icon={<HomeRoundedIcon />} />
-        <BottomNavigationAction label="Journal" value="journal" icon={<BookRoundedIcon />} />
-        <BottomNavigationAction label="Maps" value="maps" icon={<PlaceIcon />} />
-        <BottomNavigationAction label="Profile" value="profile" icon={<AccountCircleRoundedIcon />} />
-      </BottomNavigation>
-    </div>
+    <Container maxWidth="100vh" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#fff' }}>
+      <Slider {...settings} style={{ width: '100%', margin: 'auto', marginTop: '10vh' }}>
+        <div>
+          <img src="/1.png" alt="Image 1" style={{ width: '100%', height: '330px' }} />
+        </div>
+        <div>
+          <img src="/2.png" alt="Image 2" style={{ width: '100%', height: '330px' }} />
+        </div>
+        <div>
+          <img src="/3.png" alt="Image 3" style={{ width: '100%', height: '330px' }} />
+        </div>
+      </Slider>
+      <Grid container spacing={1} justifyContent="center" style={{ marginBottom: '110px' }}>
+        <Grid item>
+          <Link href="/login" passHref>
+            <Button variant="contained" color="primary" size="large" style={{ width: '40vh', height: '150%', borderRadius: '10px', fontFamily: 'Poppins', textTransform: 'none', backgroundColor: '#FA7070' }}>Get Started</Button>
+          </Link>
+        </Grid>
+      </Grid>
+    </Container>
   );
-}
+};
+
+export default LandingPage;
